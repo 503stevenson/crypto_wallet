@@ -35,7 +35,7 @@ function CreateWallet(props) {
                     <TextField label="--Enter a Wallet Name--" variant="outlined" sx={{width:'100ch'}} onChange={handleChangeName}></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+                    <Button variant="contained" onClick={handleSubmit}>Finish Create</Button>
                 </Grid>
             </Grid>
         </>

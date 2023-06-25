@@ -1,12 +1,11 @@
 import React from 'react';
-import image from "./img/Galaxy.jpg";
+import image from "./img/baby-blue-color.png";
 import './App.css';
 import Login from './components/Login';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useAuth0 } from "@auth0/auth0-react";
 import Nav from "./components/Nav";
-import Wallet from "./components/Wallet";
 import Collection from "./components/Collection";
 
 function App() {
@@ -21,7 +20,7 @@ function App() {
   return (
     <div>
       <Nav stlye={{position:"sticky", top:"0%", left:"0%", width:"100vw"}}></Nav>
-      <div className="App" style={{display:"flex", alignItems:"center", top:"50%", justifyContent:"center", backgroundImage:`url(${image})`, width:"100vw", height:"100vh", backgroundSize:"cover"}}>
+      <div className="App" style={{display:"flex", alignItems:"center", top:"50%", justifyContent:"center", backgroundImage:`url(${image})`, width:"100vw", minHeight:"100vh", backgroundSize:"cover"}}>
         {(!isAuthenticated) &&
           <>
             <Grid container spacing={10} align="center">
