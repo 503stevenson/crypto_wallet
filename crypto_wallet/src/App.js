@@ -1,63 +1,58 @@
 import React from 'react';
-import image from "./img/Galaxy.jpg"
+import image from "./img/Galaxy.jpg";
+import './App.css';
 import Login from './components/Login';
-import Signup from './components/Signup';
-import './App.css'
-//mui
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { useAuth0 } from "@auth0/auth0-react";
+import Nav from "./components/Nav";
+import Wallet from "./components/Wallet";
+import Collection from "./components/Collection";
 
 function App() {
 
   //states and functions
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [showLogin, setShowLogin] = React.useState(false);
-  const [showSignUp, setShowSignUp] = React.useState(false);
+  const { isLoading, isAuthenticated, error, user } = useAuth0();
+  const [chosenWallet, setChosenWallet] = React.useState('');
 
-  const handleClickLogin = () => {
-    setShowLogin(true);
+  const handleWalletSelection = (wallet) => {
+    console.log(wallet.name);
+    setChosenWallet(wallet);
   }
 
-  const handleClickSignUp = () => {
-    setShowSignUp(true);
+  if (error) {
+    return <div>Oops... {error.message}</div>;
   }
 
   return (
     <div>
+      <Nav stlye={{position:"sticky", top:"0%", left:"0%", width:"100vw"}}></Nav>
       <div className="App" style={{display:"flex", alignItems:"center", top:"50%", justifyContent:"center", backgroundImage:`url(${image})`, width:"100vw", height:"100vh", backgroundSize:"cover"}}>
-        {(!loggedIn && !showLogin && !showSignUp) &&
+        {(!isAuthenticated) &&
           <>
             <Grid container spacing={10} align="center">
               <Grid item xs={12}>
-                <Typography variant='h2'>Welcome to Crypto Wallet!</Typography>
+              <Typography variant='h2'>Welcome to Crypto Wallet!</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant='h6'>The most simple approach to managing your Cryptocurrency!</Typography>
-                <Typography variant='h6'>Create a wallet now or login to an existing one.</Typography>
+              <Typography variant='h6'>The most simple approach to managing your Cryptocurrency!</Typography>
+              <Typography variant='h6'>Use Auth0 *soon worldID* to log in</Typography>
+              <Typography variant='h6'>logging in loads your existing wallet or creates a new one for you!</Typography>
               </Grid>
-              <Grid item xs={6}>
-                <Button variant="contained" onClick={handleClickSignUp}>Create a new wallet</Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Button variant="contained" onClick={handleClickLogin}>Login to a wallet</Button>
+              <Grid item xs={12}>
+                  <Login></Login>
               </Grid>
             </Grid>
           </>
         }
-        {showLogin &&
+        {(isAuthenticated && !chosenWallet) &&
           <>
-            <Login></Login>
+            <Collection pickWallet={handleWalletSelection}></Collection>
           </>
         }
-        {showSignUp &&
+        {(isAuthenticated && chosenWallet) &&
           <>
-          
-          </>
-        }
-        {loggedIn &&
-          <>
-            Logged In
+            <Wallet wallet={chosenWallet}></Wallet>
           </>
         }
       </div>
