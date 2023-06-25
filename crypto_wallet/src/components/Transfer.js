@@ -48,7 +48,7 @@ function Transfer(props) {
                         <Select
                         label="Currency"
                         value={transferCoin}
-                        onChange={props.handleChangeTransferCoin}
+                        onChange={handleChangeTransferCoin}
                         >
                         {props.holdings.map((item) => {
                             return <MenuItem value={item.name} key={item.objectID}>{item.name}</MenuItem>
