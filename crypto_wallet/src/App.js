@@ -13,12 +13,6 @@ function App() {
 
   //states and functions
   const { isLoading, isAuthenticated, error, user } = useAuth0();
-  const [chosenWallet, setChosenWallet] = React.useState('');
-
-  const handleWalletSelection = (wallet) => {
-    console.log(wallet.name);
-    setChosenWallet(wallet);
-  }
 
   if (error) {
     return <div>Oops... {error.message}</div>;
@@ -45,14 +39,9 @@ function App() {
             </Grid>
           </>
         }
-        {(isAuthenticated && !chosenWallet) &&
+        {(isAuthenticated) &&
           <>
-            <Collection pickWallet={handleWalletSelection}></Collection>
-          </>
-        }
-        {(isAuthenticated && chosenWallet) &&
-          <>
-            <Wallet wallet={chosenWallet}></Wallet>
+            <Collection></Collection>
           </>
         }
       </div>

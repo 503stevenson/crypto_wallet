@@ -3,40 +3,54 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from '@mui/material/Button';
+import RestoreKeys from './RestoreKeys';
 
-function Wallet() {
+function Wallet(props) {
   
-    const testWallet = {email: "testing123@test.ca", balance: 130, holdings: {eth: 0.3, file: 0.2}, name:"bleh"}
     const { user, isAuthenticated, isLoading } = useAuth0();
-    const [wallet, setWallet] = React.useState(isAuthenticated ? testWallet : null);
+    const [wallet, setWallet] = React.useState(props.wallet);
+    const [showRestore, setShowRestore] = React.useState(false);
+    const [showTransfer, setShowTransfer] = React.useState(false);
+
+    const getWalletHoldings = () => {
+        return;
+    }
 
     const handleTransfer = () => {
         return;
     }
 
-    const handleResolveKeys = () => {
-        return;
+    const handleRestoreKeys = () => {
+        setShowRestore(true);
     }
 
     return (
         <>
-            <Grid container spacing={10} align="center">
-                <Grid item xs={12}>
-                    <Typography variant='h2'>{wallet.name}</Typography>
+            {(!showRestore && !showTransfer) &&
+                <Grid container spacing={10} align="center">
+                    <Grid item xs={12}>
+                        <Typography variant='h2'>{wallet.name}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant='h6'>Public Key: {wallet.public_key}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant='h2'>Balance: {wallet.balance}CAD</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Button variant="contained" onClick={handleTransfer}>Transfer Currency</Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button variant="contained" onClick={handleRestoreKeys}>Restore Keys</Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant='h6'>Holdings:</Typography>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Typography variant='h2'>Balance: {wallet.balance}CAD</Typography>
-                </Grid>
-                <Grid item xs={7}>
-                    <Button variant="contained" onClick={handleTransfer}>Transfer Currency</Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button variant="contained" onClick={handleResolveKeys}>Resolve Keys</Button>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant='h6'>Holdings:</Typography>
-                </Grid>
-            </Grid>
+            }
+            {showRestore &&
+                <RestoreKeys></RestoreKeys>
+            }
         </>
     );
 }
